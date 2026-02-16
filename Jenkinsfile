@@ -1,23 +1,33 @@
 pipeline {
     agent any
+
     stages {
-        stage('Build') {
+        stage('Dev') {
             steps {
-                // display a text
-                echo "this is the building phase"
+                cleanWs()
+                echo 'Building in dev environment'
+                sh 'touch dev.txt'
             }
         }
-        stage('Test') {
+        stage('Staging') {
             steps {
-                //
-                echo "this is the test phase"
+                echo 'Building in staging environment'
+                 sh 'touch stage.txt'
             }
         }
-        stage('Deploy') {
+        stage('prod') {
             steps {
-                //
-                echo "this is the deploy phase"
+                echo 'Building in prod environment'
+                 sh 'touch prod.txt'
             }
+        }
+    }
+     post {
+        always {
+            cleanWs() // Clean up the workspace to save disk space
+        }
+        success {
+            echo "Pipeline finished successfully!"
         }
     }
 }
